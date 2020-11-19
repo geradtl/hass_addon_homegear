@@ -11,26 +11,6 @@ _term() {
 	exit 0
 }
 
-chown homegear:homegear /dev/tty*
-
-if ! [ -d "/config/homegear" ]
-then
-	mkdir /config/homegear
-	echo "Create config dir"
-fi
-
-if ! [ -d "/share/homegear" ]
-then
-	mkdir /share/homegear
-	echto "create share dir"
-fi
-
-if ! [ -d "/share/homegear/lib" ]
-then
-	mkdir /share/homegear/lib
-	echo "create lib dir"
-fi
-
 trap _term SIGTERM
 
 if [[ $GET_VERSION -eq 1 ]]; then
@@ -46,20 +26,21 @@ USER_GID=$(id -g $USER)
 USER_ID=${HOST_USER_ID:=$USER_ID}
 USER_GID=${HOST_USER_GID:=$USER_GID}
 
-ln -nfs /config/homegear /etc/homegear
-ln -nfs /share/homegear /var/lib/homegear
-ln -nfs /data/homegear/log /var/log/homegear
-
 if [ $USER_ID -ne 0 ]; then
 	sed -i -e "s/^${USER}:\([^:]*\):[0-9]*:[0-9]*/${USER}:\1:${USER_ID}:${USER_GID}/" /etc/passwd
 	sed -i -e "s/^${USER}:\([^:]*\):[0-9]*/${USER}:\1:${USER_GID}/" /etc/group
 fi
 
-if ! [ "$(ls -A /etc/homegear/families)" ]; then
+if ! [ "$(ls -A /etc/homegear)" ]; then
+	mkdir /config/homegear
+    ln -nfs /config/homegear /etc/homegear
 	cp -a /etc/homegear.config/* /etc/homegear/
 fi
 
-if ! [ "$(ls -A /var/lib/homegear/www)" ]; then
+if ! [ "$(ls -A /var/lib/homegear)" ]; then
+	mkdir /share/homegear
+	mkdir /share/homegear/lib
+    ln -nfs /share/homegear/lib /var/lib/homegear
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
 else
 	rm -Rf /var/lib/homegear/modules/*
@@ -82,6 +63,8 @@ fi
 rm -f /var/lib/homegear/homegear_updated
 
 if ! [ -f /var/log/homegear/homegear.log ]; then
+	mkdir /share/homegear/log
+    ln -nfs /share/homegear/log /var/log/homegear
 	touch /var/log/homegear/homegear.log
 	touch /var/log/homegear/homegear-webssh.log
 	touch /var/log/homegear/homegear-flows.log

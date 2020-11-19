@@ -42,8 +42,7 @@ if ! [ "$(ls -A /var/lib/homegear)" ]; then
 	mkdir /share/homegear
 	mkdir /share/homegear/lib
 	ln -nfs /share/homegear/lib /var/lib/homegear
-	cp -a /var/lib/homegear.data/* /share/homegear/lib
-#	cp -a /var/lib/homegear.data/* /var/lib/homegear/
+	cp -a /var/lib/homegear.data/* /var/lib/homegear/
 else
 	rm -Rf /var/lib/homegear/modules/*
 	mkdir -p /var/lib/homegear.data/modules

@@ -33,14 +33,14 @@ fi
 
 if ! [ "$(ls -A /etc/homegear)" ]; then
 	mkdir /config/homegear
-    ln -nfs /config/homegear /etc/homegear
+	ln -nfs /config/homegear /etc/homegear
 	cp -a /etc/homegear.config/* /etc/homegear/
 fi
 
 if ! [ "$(ls -A /var/lib/homegear)" ]; then
 	mkdir /share/homegear
 	mkdir /share/homegear/lib
-    ln -nfs /share/homegear/lib /var/lib/homegear
+	ln -nfs /share/homegear/lib /var/lib/homegear
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
 else
 	rm -Rf /var/lib/homegear/modules/*
@@ -64,7 +64,7 @@ rm -f /var/lib/homegear/homegear_updated
 
 if ! [ -f /var/log/homegear/homegear.log ]; then
 	mkdir /share/homegear/log
-    ln -nfs /share/homegear/log /var/log/homegear
+	ln -nfs /share/homegear/log /var/log/homegear
 	touch /var/log/homegear/homegear.log
 	touch /var/log/homegear/homegear-webssh.log
 	touch /var/log/homegear/homegear-flows.log

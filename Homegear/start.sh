@@ -31,16 +31,20 @@ if [ $USER_ID -ne 0 ]; then
 	sed -i -e "s/^${USER}:\([^:]*\):[0-9]*/${USER}:\1:${USER_GID}/" /etc/group
 fi
 
-if ! [ "$(ls -A /etc/homegear)" ]; then
+if ! [ "$(ls -A /config/homegear)" ]; then
 	mkdir /config/homegear
+	rm -r /etc/homegear
 	ln -nfs /config/homegear /etc/homegear
-	cp -a /etc/homegear.config/* /config/homegear
-#	cp -a /etc/homegear.config/* /etc/homegear/
+	cp -a /etc/homegear.config/* /etc/homegear/
 fi
 
-if ! [ "$(ls -A /var/lib/homegear)" ]; then
-	mkdir /share/homegear
-	mkdir /share/homegear/lib
+if ! [ "$(ls -A /etc/homegear)" ]; then
+	ln -nfs /config/homegear /etc/homegear
+fi
+
+if ! [ "$(ls -A /share/homegear/lib)" ]; then
+	mkdir -p /share/homegear/lib
+	rm -r /var/lib/homegear
 	ln -nfs /share/homegear/lib /var/lib/homegear
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
 else
@@ -63,8 +67,13 @@ else
 fi
 rm -f /var/lib/homegear/homegear_updated
 
+if ! [ "$(ls -A /var/lib/homegear)" ]; then
+	ln -nfs /share/homegear/lib /var/lib/homegear
+fi
+
 if ! [ -f /var/log/homegear/homegear.log ]; then
 	mkdir /share/homegear/log
+	rm -r /var/log/homegear
 	ln -nfs /share/homegear/log /var/log/homegear
 	touch /var/log/homegear/homegear.log
 	touch /var/log/homegear/homegear-webssh.log

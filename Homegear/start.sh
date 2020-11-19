@@ -36,10 +36,12 @@ if ! [ "$(ls -A /config/homegear)" ]; then
 	rm -r /etc/homegear
 	ln -nfs /config/homegear /etc/homegear
 	cp -a /etc/homegear.config/* /etc/homegear/
+	echo "Create config dir"
 fi
 
 if ! [ "$(ls -A /etc/homegear)" ]; then
 	ln -nfs /config/homegear /etc/homegear
+	echo "Link config dir"
 fi
 
 if ! [ "$(ls -A /share/homegear/lib)" ]; then
@@ -47,6 +49,7 @@ if ! [ "$(ls -A /share/homegear/lib)" ]; then
 	rm -r /var/lib/homegear
 	ln -nfs /share/homegear/lib /var/lib/homegear
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
+	echo "Create lib dir"
 else
 	rm -Rf /var/lib/homegear/modules/*
 	mkdir -p /var/lib/homegear.data/modules
@@ -69,6 +72,7 @@ rm -f /var/lib/homegear/homegear_updated
 
 if ! [ "$(ls -A /var/lib/homegear)" ]; then
 	ln -nfs /share/homegear/lib /var/lib/homegear
+	echo "Link lib dir"
 fi
 
 if ! [ -f /var/log/homegear/homegear.log ]; then
@@ -81,6 +85,7 @@ if ! [ -f /var/log/homegear/homegear.log ]; then
 	touch /var/log/homegear/homegear-scriptengine.log
 	touch /var/log/homegear/homegear-management.log
 	touch /var/log/homegear/homegear-influxdb.log
+	echo "Create log dir"
 fi
 
 if ! [ -f /etc/homegear/dh1024.pem ]; then

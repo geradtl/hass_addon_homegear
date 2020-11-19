@@ -1,8 +1,8 @@
 {
-    "name": "Homegear",
-    "version": "0.1",
-    "slug": "homegear",
-    "description": "Homegear as a Hassio add-on",
+    "name": "Homegear-eQ3Max",
+    "version": "0.2",
+    "slug": "homegear-eq3max",
+    "description": "Homegear for eQ-3 Max! as a Hassio add-on",
     "startup": "before",
     "boot": "auto",
     "gpio": true,
@@ -10,12 +10,11 @@
       "SYS_ADMIN",
       "SYS_RAWIO"
     ],
-    "map": ["config:rw", "share:rw"],
+    "map": ["config:rw", "share:rw", "ssl:rw"],
     "ports": {
       "2001/tcp": 2001,
       "2002/tcp": 2002,
-      "2003/tcp": 2003,
-      "2004/tcp": 2004
+      "2003/tcp": 2003
     },
     "environment": {
     },
@@ -23,8 +22,6 @@
     },
     "schema": {
     },
-    "devices": [
-    ],
     "arch": [
       "aarch64",
       "amd64",
@@ -32,4 +29,3 @@
       "i386"
     ]
   }
-  

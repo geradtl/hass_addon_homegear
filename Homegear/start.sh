@@ -31,24 +31,21 @@ if [ $USER_ID -ne 0 ]; then
 	sed -i -e "s/^${USER}:\([^:]*\):[0-9]*/${USER}:\1:${USER_GID}/" /etc/group
 fi
 
-if ! [ "$(ls -A /config/homegear)" ]; then
-	mkdir /config/homegear
-	cp -a /etc/homegear.config/* /config/homegear
-	echo "Create config dir"
+if ! [ "$(ls -A /config/homegear/etc)" ]; then
+	mkdir /config/homegear/etc
+	cp -a /etc/homegear.config/* /config/homegear/etc
+	echo "Create etc dir"
 fi
 
-if [ "$(ls -A /config/homegear)" ]; then
+if [ "$(ls -A /config/homegear/etc)" ]; then
 	rm -r /etc/homegear
-	ln -nfs /config/homegear /etc/homegear
-	echo "Link config dir"
+	ln -nfs /config/homegear/etc /etc/homegear
+	echo "Link etc dir"
 fi
 
-if ! [ "$(ls -A /share/homegear/lib)" ]; then
-	mkdir -p /share/homegear/lib
-	rm -r /var/lib/homegear
-	ln -nfs /share/homegear/lib /var/lib/homegear
+if ! [ "$(ls -A /var/lib/homegear/www)" ]; then
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
-	echo "Create lib dir"
+	echo "copy data files"
 else
 	rm -Rf /var/lib/homegear/modules/*
 	mkdir -p /var/lib/homegear.data/modules
@@ -69,22 +66,32 @@ else
 fi
 rm -f /var/lib/homegear/homegear_updated
 
-if ! [ "$(ls -A /var/lib/homegear)" ]; then
-	ln -nfs /share/homegear/lib /var/lib/homegear
-	echo "Link lib dir"
+if ! [ "$(ls -A /config/homegear/data)" ]; then
+	mkdir /config/homegear/data
+	echo "Create data dir"
 fi
 
-if ! [ -f /var/log/homegear/homegear.log ]; then
-	mkdir /share/homegear/log
-	rm -r /var/log/homegear
-	ln -nfs /share/homegear/log /var/log/homegear
-	touch /var/log/homegear/homegear.log
-	touch /var/log/homegear/homegear-webssh.log
-	touch /var/log/homegear/homegear-flows.log
-	touch /var/log/homegear/homegear-scriptengine.log
-	touch /var/log/homegear/homegear-management.log
-	touch /var/log/homegear/homegear-influxdb.log
+if [ "$(ls -A /config/homegear/data)" ]; then
+	rm -r /var/lib/homegear/data
+	ln -nfs /config/homegear/data /var/lib/homegear/data
+	echo "Link data dir"
+fi
+
+if ! [ "$(ls -A /config/homegear/log)" ]; then
+	mkdir /config/homegear/log
+	touch /config/homegear/log/homegear.log
+	touch /config/homegear/log/homegear-webssh.log
+	touch /config/homegear/log/homegear-flows.log
+	touch /config/homegear/log/homegear-scriptengine.log
+	touch /config/homegear/log/homegear-management.log
+	touch /config/homegear/log/homegear-influxdb.log
 	echo "Create log dir"
+fi
+
+if [ "$(ls -A /config/homegear/log)" ]; then
+	rm -r /var/log/homegear
+	ln -nfs /config/homegear/log /var/log/homegear
+	echo "Link log dir"
 fi
 
 if ! [ -f /etc/homegear/dh1024.pem ]; then

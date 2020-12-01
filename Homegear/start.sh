@@ -36,12 +36,11 @@ if ! [ "$(ls -A /config/homegear)" ]; then
 	rm -r /etc/homegear
 	ln -nfs /config/homegear /etc/homegear
 	cp -a /etc/homegear.config/* /etc/homegear/
-	echo "Create config dir"
-fi
-
-if ! [ "$(ls -A /etc/homegear)" ]; then
+	echo "Create and link config dir"
+else 
+	rm -r /etc/homegear
 	ln -nfs /config/homegear /etc/homegear
-	echo "Link config dir"
+	echo "Link existing config dir"
 fi
 
 if ! [ "$(ls -A /share/homegear/lib)" ]; then

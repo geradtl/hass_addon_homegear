@@ -1,6 +1,6 @@
 {
     "name": "Homegear-eQ3Max",
-    "version": "0.2",
+    "version": "0.3",
     "slug": "homegear-eq3max",
     "description": "Homegear for eQ-3 Max! as a Hassio add-on",
     "boot": "auto",

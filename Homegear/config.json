@@ -3,6 +3,7 @@
     "version": "0.2",
     "slug": "homegear-eq3max",
     "description": "Homegear for eQ-3 Max! as a Hassio add-on",
+    "startup": "before",
     "boot": "auto",
     "gpio": true,
     "privileged": [
